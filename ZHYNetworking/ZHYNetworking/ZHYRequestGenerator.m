@@ -31,13 +31,24 @@
 }
 
 - (NSURLRequest *)generateGETRequestWithServiceIdentifier:(NSString *)serviceIdentifier requestParams:(NSDictionary *)requestParams methodName:(NSString *)methodName{
-    ZHYService *service = [[ZHYServiceFactory sharedInstance] serviceWithIdentifier:serviceIdentifier];
-    NSString *urlString = [NSString stringWithFormat:@"%@%@%@", service.apiBaseUrl, service.apiVersion, methodName];
+    
+    NSString *urlString = [self generateURLStringWithServiceIdentifier:serviceIdentifier methodName:methodName];
     NSMutableURLRequest *request = [self.httpRequestSerializer requestWithMethod:@"GET" URLString:urlString parameters:requestParams error:NULL];
     return request;
 }
 
+- (NSURLRequest *)generatePOSTRequestWithServiceIdentifier:(NSString *)serviceIdentifier requestParams:(NSDictionary *)requestParams methodName:(NSString *)methodName{
+    
+    NSString *urlString = [self generateURLStringWithServiceIdentifier:serviceIdentifier methodName:methodName];
+    NSMutableURLRequest *request = [self.httpRequestSerializer requestWithMethod:@"POST" URLString:urlString parameters:requestParams error:NULL];
+    return request;
+}
 
+- (NSString *)generateURLStringWithServiceIdentifier:(NSString *)serviceIdentifier methodName:(NSString *)methodName{
+    ZHYService *service = [[ZHYServiceFactory sharedInstance] serviceWithIdentifier:serviceIdentifier];
+    NSString *urlString = [NSString stringWithFormat:@"%@%@%@", service.apiBaseUrl, service.apiVersion, methodName];
+    return urlString;
+}
 
 #pragma mark - get & set
 

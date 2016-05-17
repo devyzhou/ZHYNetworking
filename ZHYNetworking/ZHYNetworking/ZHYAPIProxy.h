@@ -18,4 +18,14 @@
                     methodName:(NSString *)methodName
              completionHandler:(void (^)(ZHYURLResponse *response, NSError *error))completionHandler;
 
+
+
+
+
+
+
+- (void)cancelRequestWithRequestID:(NSNumber *)requestID;
+
+- (void)cancelRequestWithRequestIDList:(NSArray *)requestIDList;
+
 @end

@@ -9,5 +9,7 @@
 #ifndef ZHYNetworking_h
 #define ZHYNetworking_h
 
+#import "ZHYAPIProxy.h"
+#import "ZHYURLResponse.h"
 
 #endif /* ZHYNetworking_h */

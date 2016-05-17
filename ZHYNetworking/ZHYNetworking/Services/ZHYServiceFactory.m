@@ -21,7 +21,7 @@
     return sharedInstance;
 }
 
-- (ZHYService *)serviceWithIdentifier:(NSString *)identifier{
+- (ZHYService <ZHYServiceProtocal> *)serviceWithIdentifier:(NSString *)identifier{
     return [[NSClassFromString(identifier) alloc] init];
 }
 
