@@ -84,9 +84,13 @@
                 requestId = [[ZHYAPIProxy sharedInstance] callGETWithParams:params serviceIdentifier:self.child.serviceType methodName:self.child.methodName completionHandler:^(ZHYURLResponse *response, NSError *error) {
                     [self removeRequestIdWithRequestID:response.requestId];
                     if (!error) {
-                          completeHandle(self, response.content, ZHYAPIManagerErrorTypeSuccess);
+                          if (completeHandle){
+                              completeHandle(self, response.content, ZHYAPIManagerErrorTypeSuccess);
+                          }
                       }else{
-                          completeHandle(self, nil, ZHYAPIManagerErrorTypeNoNetWork);
+                          if (completeHandle){
+                            completeHandle(self, nil, ZHYAPIManagerErrorTypeNoNetWork);
+                          }
                       }
                   }];
                 break;
@@ -100,7 +104,9 @@
             }
         }
     }else{
-        completeHandle(self,nil,ZHYAPIManagerErrorTypeNoNetWork);
+        if (completeHandle){
+            completeHandle(self,nil,ZHYAPIManagerErrorTypeNoNetWork);
+        }
     }
     
     [self.requestIdList addObject:@(requestId)];

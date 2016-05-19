@@ -1,5 +1,5 @@
 framework module YYModel {
-  umbrella header "Pods-YYModel-umbrella.h"
+  umbrella header "YYModel-umbrella.h"
 
   export *
   module * { export * }

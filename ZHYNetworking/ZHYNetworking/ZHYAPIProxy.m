@@ -10,6 +10,7 @@
 #import "AFNetworking.h"
 #import "ZHYRequestGenerator.h"
 #import "ZHYURLResponse.h"
+#import "ZHYLogger.h"
 
 @interface ZHYAPIProxy ()
 
@@ -35,7 +36,6 @@
 
 - (NSInteger)callGETWithParams:(NSDictionary *)params serviceIdentifier:(NSString *)servieIdentifier methodName:(NSString *)methodName completionHandler:(void (^)(ZHYURLResponse *, NSError *))completionHandler{
     NSURLRequest *request = [[ZHYRequestGenerator sharedInstance] generateGETRequestWithServiceIdentifier:servieIdentifier requestParams:params methodName:methodName];
-    NSLog(@"\n=================requestURL==================\n%@\n\n",request.URL);
     NSNumber *requestId = [self callApiWithRequest:request completionHandler:completionHandler];
     return [requestId integerValue];
 }
@@ -68,6 +68,12 @@
         ZHYURLResponse *URLResponse = [[ZHYURLResponse alloc] initWithRequestId:requestId
                                                                    responseData:responseObject error:error];
         completionHandler?completionHandler(URLResponse,error):nil;
+        
+        [ZHYLogger logDebugInfoWithResponse:(NSHTTPURLResponse *)response
+                              resposeString:URLResponse.content
+                                    request:request
+                                      error:NULL];
+        
     }];
     self.dispatchTable[requestId] = urlSessionDataTask;
     [urlSessionDataTask resume];

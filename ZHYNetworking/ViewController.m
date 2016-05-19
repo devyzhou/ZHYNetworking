@@ -15,6 +15,8 @@
 
 @property (strong, nonatomic) PostAPIManager *postApiManager;
 
+@property (strong, nonatomic) UIButton *refreshButton;
+
 @end
 
 @implementation ViewController
@@ -23,17 +25,30 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [self.postApiManager loadDataWithParams:@{} CompleteHandle:^(ZHYAPIBaseManager *manager, id responseData, ZHYAPIManagerErrorType errorType) {
-        NSLog(@"%@",responseData);
-    }];
-    
+    [self.view addSubview:self.refreshButton];
+    [self loadData];
     // Do any additional setup after loading the view, typically from a nib.
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - even response
+
+- (void)refresh{
+    if ([self.postApiManager isLoading]) {
+        NSLog(@"ok");
+        return;
+    }
+    [self loadData];
+}
+
+- (void)loadData{
+    [self.postApiManager loadDataWithParams:@{} CompleteHandle:^(ZHYAPIBaseManager *manager, id responseData, ZHYAPIManagerErrorType errorType) {
+        //NSLog(@"%@",responseData);
+    }];
 }
 
 #pragma mark - get & set
@@ -45,5 +60,14 @@
     return _postApiManager;
 }
 
+- (UIButton *)refreshButton {
+    if (!_refreshButton) {
+        _refreshButton = [UIButton buttonWithType:UIButtonTypeSystem];
+        [_refreshButton setFrame:CGRectMake(200, 200, 100, 40)];
+        [_refreshButton setTitle:@"刷新" forState:UIControlStateNormal];
+        [_refreshButton addTarget:self action:@selector(refresh) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _refreshButton;
+}
 
 @end
