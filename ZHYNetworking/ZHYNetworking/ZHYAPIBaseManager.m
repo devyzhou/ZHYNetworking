@@ -7,6 +7,7 @@
 //  Copyright © 2016年 ZhouYuan. All rights reserved.
 //
 
+#import <AFNetworking/AFNetworkReachabilityManager.h>
 #import "ZHYAPIBaseManager.h"
 #import "ZHYNetworking.h"
 #import "AFNetworkReachabilityManager.h"

@@ -24,14 +24,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    [[ZHYAPIProxy sharedInstance] callGETWithParams:nil
-//                                  serviceIdentifier:NSStringFromClass([ZHYServiceTest class])
-//                                         methodName:@"stream/0/posts/stream/global"
-//                                  completionHandler:^(ZHYURLResponse *urlresponse, NSError *error) {
-//         
-//                                      NSLog(@"%@",urlresponse.content);
-//    }];
-    
     [self.postApiManager loadDataWithParams:@{} CompleteHandle:^(ZHYAPIBaseManager *manager, id responseData, ZHYAPIManagerErrorType errorType) {
         NSLog(@"%@",responseData);
     }];

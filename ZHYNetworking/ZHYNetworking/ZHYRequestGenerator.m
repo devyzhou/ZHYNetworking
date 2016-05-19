@@ -6,8 +6,8 @@
 //  Copyright © 2016年 ZhouYuan. All rights reserved.
 //
 
+#import <AFNetworking/AFURLRequestSerialization.h>
 #import "ZHYRequestGenerator.h"
-#import "AFNetworking.h"
 #import "ZHYService.h"
 #import "ZHYServiceFactory.h"
 

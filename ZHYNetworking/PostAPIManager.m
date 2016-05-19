@@ -18,6 +18,7 @@
     return self;
 }
 
+#pragma mark - ZHYAPIManager
 
 - (NSString *)serviceType{
     return NSStringFromClass([ZHYServiceTest class]);
