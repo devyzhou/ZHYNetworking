@@ -82,7 +82,6 @@ typedef NS_ENUM (NSUInteger, ZHYAPIManagerRequestType){
 - (NSString *)methodName; // 方法名
 - (NSString *)serviceType; // 服务器名
 - (ZHYAPIManagerRequestType)requestType; // 请求类型
-//- (NSDictionary *)paramsForApi:(ZHYAPIBaseManager *)manager; // 请求参数
 
 @optional
 - (void)cleanData;

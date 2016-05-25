@@ -13,6 +13,21 @@
 #import "AFNetworkReachabilityManager.h"
 #import "ZHYAPIProxy.h"
 
+#define ZHYCallAPI(REQUEST_METHOD,REQUEST_ID) \
+{                                              \
+    REQUEST_ID = [[ZHYAPIProxy sharedInstance] call##REQUEST_METHOD##WithParams:params serviceIdentifier:self.child.serviceType methodName:self.child.methodName completionHandler:^(ZHYURLResponse *response, NSError *error) {\
+    [self removeRequestIdWithRequestID:response.requestId]; \
+    if (!error) { \
+        [self successedOnCallingAPI:response CompleteHandle:completeHandle];\
+    }else{ \
+        if (completeHandle){\
+            completeHandle(self, nil, ZHYAPIManagerErrorTypeNoNetWork);\
+        }\
+    }\
+    }];\
+    [self.requestIdList addObject:@(REQUEST_ID)];\
+}
+
 @interface ZHYAPIBaseManager ()
 
 @property (nonatomic, strong) NSMutableArray *requestIdList;
@@ -81,33 +96,11 @@
     if ([self isReachable]) {
         switch ([self.child requestType]) {
             case ZHYAPIManagerRequestTypeGet:{
-                requestId = [[ZHYAPIProxy sharedInstance] callGETWithParams:params serviceIdentifier:self.child.serviceType methodName:self.child.methodName completionHandler:^(ZHYURLResponse *response, NSError *error) {
-                    [self removeRequestIdWithRequestID:response.requestId];
-                    if (!error) {
-                          if (completeHandle){
-                              completeHandle(self, response.content, ZHYAPIManagerErrorTypeSuccess);
-                          }
-                      }else{
-                          if (completeHandle){
-                            completeHandle(self, nil, ZHYAPIManagerErrorTypeNoNetWork);
-                          }
-                      }
-                  }];
+                ZHYCallAPI(GET,requestId);
                 break;
             }
-                
             case ZHYAPIManagerRequestTypePost:{
-                requestId = [[ZHYAPIProxy sharedInstance] callPOSTWithParams:params serviceIdentifier:self.child.serviceType methodName:self.child.methodName completionHandler:^(ZHYURLResponse *response, NSError *error) {
-                    if (!error) {
-                        if (completeHandle){
-                            completeHandle(self, response.content, ZHYAPIManagerErrorTypeSuccess);
-                        }
-                    }else{
-                        if (completeHandle){
-                            completeHandle(self, nil, ZHYAPIManagerErrorTypeNoNetWork);
-                        }
-                    }
-                }];
+                ZHYCallAPI(POST,requestId);
                 break;
             }
             default:{
@@ -119,11 +112,20 @@
             completeHandle(self,nil,ZHYAPIManagerErrorTypeNoNetWork);
         }
     }
-    
-    [self.requestIdList addObject:@(requestId)];
     return requestId;
 }
 
+- (void)successedOnCallingAPI:(ZHYURLResponse *)response CompleteHandle:(void (^)(ZHYAPIBaseManager *, id, ZHYAPIManagerErrorType))completeHandle{
+    if ([self.validator manager:self isCorrectWithCallBackData:response.content]) {
+        if (completeHandle){
+            completeHandle(self, response.content, ZHYAPIManagerErrorTypeSuccess);
+        }
+    }else{
+        if (completeHandle){
+            completeHandle(self,nil,ZHYAPIManagerErrorTypeNoContent);
+        }
+    }
+}
 
 #pragma mark - get & set
 

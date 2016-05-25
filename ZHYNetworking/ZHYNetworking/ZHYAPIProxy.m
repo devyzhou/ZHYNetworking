@@ -60,16 +60,12 @@
 #pragma mark - private methods
 
 - (NSNumber *)callApiWithRequest:(NSURLRequest *)request completionHandler:(void (^)(ZHYURLResponse *, NSError *))completionHandler{
-    // 之所以不用getter，是因为如果放到getter里面的话，每次调用self.recordedRequestId的时候值就都变了，违背了getter的初衷
     NSNumber *requestId = [self generateRequestId];
     
     NSURLSessionDataTask *urlSessionDataTask = [self.sessionManager dataTaskWithRequest:request completionHandler:
     ^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
         
-        if (!self.dispatchTable[requestId]) {
-#ifdef DEBUG
-            NSLog(@"cancel request");
-#endif
+        if (!self.dispatchTable[requestId]) { //如果请求被取消，直接返回
             return ;
         }else {
             [self.dispatchTable removeObjectForKey:requestId];

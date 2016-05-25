@@ -20,4 +20,9 @@ typedef NS_ENUM(NSUInteger, ZHYURLResponseStatus){
     ZHYURLResponseStatusErrorNoNetwork // 默认除了超时以外的错误都是无网络错误。
 };
 
+static BOOL kZHYShouldCache = NO;
+static NSTimeInterval kZHYCacheOutdateTimeSeconds = 300; // 5分钟的cache过期时间
+static NSUInteger kZHYCacheCountLimit = 1000; // 最多1000条cache
+
+
 #endif /* ZHYNetworkingConfiguration_h */
