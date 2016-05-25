@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "ZHYAPIBaseManager.h"
 
-@interface PostAPIManager : ZHYAPIBaseManager<ZHYAPIManager>
+@interface PostAPIManager : ZHYAPIBaseManager<ZHYAPIManager, ZHYAPIManagerValidator, ZHYAPIManagerParamSourceDelegate>
 
 
 

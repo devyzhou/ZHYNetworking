@@ -20,13 +20,18 @@
 - (void)viewDidLoad{
     [super viewDidLoad];
     [self.postApiManager loadDataWithParams:@{} CompleteHandle:^(ZHYAPIBaseManager *manager, id responseData, ZHYAPIManagerErrorType errorType) {
-        NSLog(@"%@",responseData);
+        [self ssss];
+        //NSLog(@"%@",responseData);
     }];
 }
 
 - (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
     [self.postApiManager cancelAllRequests];
+}
+
+- (void)ssss{
+    NSLog(@"BBBB");
 }
 
 - (void)didReceiveMemoryWarning{

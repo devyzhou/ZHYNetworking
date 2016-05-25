@@ -46,19 +46,16 @@
 }
 
 - (void)loadData{
-    [self.postApiManager loadDataWithParams:@{} CompleteHandle:^(ZHYAPIBaseManager *manager, id responseData, ZHYAPIManagerErrorType errorType) {
-        //NSLog(@"%@",responseData);
+    self.postApiManager = [[PostAPIManager alloc] init];
+    [self.postApiManager loadDataCompleteHandle:^(ZHYAPIBaseManager *manager, id responseData, ZHYAPIManagerErrorType errorType) {
+        
     }];
+//    [self.postApiManager loadDataWithParams:@{} CompleteHandle:^(ZHYAPIBaseManager *manager, id responseData, ZHYAPIManagerErrorType errorType) {
+//        //NSLog(@"%@",responseData);
+//    }];
 }
 
 #pragma mark - get & set
-
-- (PostAPIManager *)postApiManager{
-    if (!_postApiManager) {
-        _postApiManager = [[PostAPIManager alloc] init];
-    }
-    return _postApiManager;
-}
 
 - (UIButton *)refreshButton {
     if (!_refreshButton) {

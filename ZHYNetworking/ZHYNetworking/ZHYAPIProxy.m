@@ -40,6 +40,12 @@
     return [requestId integerValue];
 }
 
+- (NSInteger)callPOSTWithParams:(NSDictionary *)params serviceIdentifier:(NSString *)servieIdentifier methodName:(NSString *)methodName completionHandler:(void (^)(ZHYURLResponse *, NSError *))completionHandler{
+    NSURLRequest *request = [[ZHYRequestGenerator sharedInstance] generatePOSTRequestWithServiceIdentifier:servieIdentifier requestParams:params methodName:methodName];
+    NSNumber *requestId = [self callApiWithRequest:request completionHandler:completionHandler];
+    return [requestId integerValue];
+}
+
 - (void)cancelRequestWithRequestID:(NSNumber *)requestID{
     NSURLSessionDataTask *urlSessionDataTask = self.dispatchTable[requestID];
     [urlSessionDataTask cancel];
@@ -61,6 +67,9 @@
     ^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
         
         if (!self.dispatchTable[requestId]) {
+#ifdef DEBUG
+            NSLog(@"cancel request");
+#endif
             return ;
         }else {
             [self.dispatchTable removeObjectForKey:requestId];

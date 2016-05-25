@@ -28,7 +28,7 @@
     self = [super init];
     if (self) {
         _paramSource = nil;
-    
+        _validator = nil;
         if ([self conformsToProtocol:@protocol(ZHYAPIManager)]) {
             self.child = (id <ZHYAPIManager>)self;
         }
@@ -95,8 +95,19 @@
                   }];
                 break;
             }
-            case ZHYAPIManagerRequestTypePost:{
                 
+            case ZHYAPIManagerRequestTypePost:{
+                requestId = [[ZHYAPIProxy sharedInstance] callPOSTWithParams:params serviceIdentifier:self.child.serviceType methodName:self.child.methodName completionHandler:^(ZHYURLResponse *response, NSError *error) {
+                    if (!error) {
+                        if (completeHandle){
+                            completeHandle(self, response.content, ZHYAPIManagerErrorTypeSuccess);
+                        }
+                    }else{
+                        if (completeHandle){
+                            completeHandle(self, nil, ZHYAPIManagerErrorTypeNoNetWork);
+                        }
+                    }
+                }];
                 break;
             }
             default:{

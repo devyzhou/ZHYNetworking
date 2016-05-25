@@ -19,6 +19,11 @@
              completionHandler:(void (^)(ZHYURLResponse *response, NSError *error))completionHandler;
 
 
+- (NSInteger)callPOSTWithParams:(NSDictionary *)params
+             serviceIdentifier:(NSString *)servieIdentifier
+                    methodName:(NSString *)methodName
+             completionHandler:(void (^)(ZHYURLResponse *response, NSError *error))completionHandler;
+
 
 
 

@@ -99,6 +99,7 @@ typedef NS_ENUM (NSUInteger, ZHYAPIManagerRequestType){
 
 @property (nonatomic, weak) id<ZHYAPIManagerParamSourceDelegate> paramSource;
 @property (nonatomic, weak) NSObject<ZHYAPIManager> *child; //里面会调用到NSObject的方法，所以这里不用id
+@property (weak, nonatomic) id<ZHYAPIManagerValidator> validator;
 
 /**
  *  检测网络
@@ -110,7 +111,7 @@ typedef NS_ENUM (NSUInteger, ZHYAPIManagerRequestType){
 /**
  *  开始加载数据
  */
-//- (NSInteger)loadDataCompleteHandle:(void (^)(ZHYAPIBaseManager *manager,id responseData,ZHYAPIManagerErrorType errorType))completeHandle;
+- (NSInteger)loadDataCompleteHandle:(void (^)(ZHYAPIBaseManager *manager,id responseData,ZHYAPIManagerErrorType errorType))completeHandle;
 
 - (NSInteger)loadDataWithParams:(NSDictionary *)params
                  CompleteHandle:(void (^)(ZHYAPIBaseManager *manager, id responseData, ZHYAPIManagerErrorType errorType))completeHandle;
