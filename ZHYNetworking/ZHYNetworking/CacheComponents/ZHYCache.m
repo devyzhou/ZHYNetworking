@@ -8,6 +8,7 @@
 
 #import "ZHYCache.h"
 #import "ZHYNetworkingConfiguration.h"
+#import "ZHYCacheObject.h"
 
 @interface ZHYCache()
 
@@ -27,6 +28,54 @@
         sharedInstance = [[ZHYCache alloc] init];
     });
     return sharedInstance;
+}
+
+#pragma mark - public methods
+
+- (void)saveCacheWithData:(NSData *)cachedData serviceIdentifier:(NSString *)serviceIdentifier methodName:(NSString *)methodName requestParams:(NSDictionary *)requestParams{
+    [self saveCacheWithData:cachedData key:[self keyWithServiceIdentifier:serviceIdentifier methodName:methodName requestParams:requestParams]];
+}
+
+- (NSData *)fetchCachedDataWithServiceIdentifier:(NSString *)serviceIdentifier methodName:(NSString *)methodName requestParams:(NSDictionary *)requestParams{
+    return [self fetchCachedDataWithKey:[self keyWithServiceIdentifier:serviceIdentifier methodName:methodName requestParams:requestParams]];
+}
+
+- (void)deleteCacheWithServiceIdentifier:(NSString *)serviceIdentifier methodName:(NSString *)methodName requestParams:(NSDictionary *)requestParams{
+    [self deleteCacheWithKey:[self keyWithServiceIdentifier:serviceIdentifier methodName:methodName requestParams:requestParams]];
+}
+
+#pragma mark - private methods
+
+- (void)saveCacheWithData:(NSData *)cachedData key:(NSString *)key{
+    ZHYCacheObject *cachedObject = [self.cache objectForKey:key];
+    if (!cachedObject) {
+        cachedObject = [[ZHYCacheObject alloc] init];
+    }
+    [cachedObject updateContent:cachedData];
+    [self.cache setObject:cachedObject forKey:key];
+}
+
+- (NSData *)fetchCachedDataWithKey:(NSString *)key{
+    ZHYCacheObject *cachedObject = [self.cache objectForKey:key];
+    if (cachedObject.isOutDate || cachedObject.isEmpty) {
+        return nil;
+    } else {
+        return cachedObject.content;
+    }
+}
+
+- (void)deleteCacheWithKey:(NSString *)key{
+    [self.cache removeObjectForKey:key];
+}
+
+- (void)clean{
+    [self.cache removeAllObjects];
+}
+
+- (NSString *)keyWithServiceIdentifier:(NSString *)serviceIdentifier
+                            methodName:(NSString *)methodName
+                         requestParams:(NSDictionary *)requestParams{
+    return @"";
 }
 
 

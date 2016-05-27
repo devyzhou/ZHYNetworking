@@ -127,6 +127,12 @@
     }
 }
 
+#pragma mark - child method
+
+- (BOOL)shouldCache{
+    return kZHYShouldCache;
+}
+
 #pragma mark - get & set
 
 - (BOOL)isReachable{

@@ -121,4 +121,5 @@ typedef NS_ENUM (NSUInteger, ZHYAPIManagerRequestType){
 - (void)cancelRequestWithRequestId:(NSInteger)requestID;
 
 
+- (BOOL)shouldCache;
 @end

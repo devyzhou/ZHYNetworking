@@ -12,10 +12,6 @@
 
 + (instancetype)sharedInstance;
 
-- (NSString *)keyWithServiceIdentifier:(NSString *)serviceIdentifier
-                            methodName:(NSString *)methodName
-                         requestParams:(NSDictionary *)requestParams;
-
 - (NSData *)fetchCachedDataWithServiceIdentifier:(NSString *)serviceIdentifier
                                       methodName:(NSString *)methodName
                                    requestParams:(NSDictionary *)requestParams;
