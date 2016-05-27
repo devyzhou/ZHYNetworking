@@ -161,3 +161,10 @@
 
 
 @end
+
+
+@implementation ZHYAPIBaseManager (HUDProgress)
+
+
+
+@end
